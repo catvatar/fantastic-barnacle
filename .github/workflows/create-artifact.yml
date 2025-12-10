@@ -1,0 +1,20 @@
+name: Create Hello World Artifact
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  create-artifact:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Create hello_world.md
+        run: echo "# Hello World" > hello_world.md
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello-world-artifact
+          path: hello_world.md
