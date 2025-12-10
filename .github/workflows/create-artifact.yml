@@ -20,3 +20,4 @@ jobs:
         with:
           name: hello-world-artifact
           path: hello_world.md
+          retention-days: 1
