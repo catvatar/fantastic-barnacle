@@ -7,7 +7,7 @@ package com.example.stepcounter
  * with plain JUnit and no mocking.
  */
 object StepCounterLogic {
-    const val MAX_STEPS = 100
+    const val MAXIMUM_STEPS = 100
     val MILESTONES: List<Int> = listOf(10, 20, 50)
 
     /** Displayed count = sensor delta since baseline + manual overrides. Never negative. */

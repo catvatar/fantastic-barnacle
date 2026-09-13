@@ -46,8 +46,8 @@ class MainActivity : ComponentActivity() {
         stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
         setContent {
-            val vm: StepCounterViewModel = viewModel()
-            viewModel = vm
+            val stepCounterViewModel: StepCounterViewModel = viewModel()
+            viewModel = stepCounterViewModel
 
             val context = LocalContext.current
             var sensorPermissionDenied by remember { mutableStateOf(false) }
@@ -75,14 +75,14 @@ class MainActivity : ComponentActivity() {
             }
 
             val hasPermission = hasActivityRecognitionPermission(context)
-            val steps by vm.steps.collectAsStateWithLifecycle()
+            val steps by stepCounterViewModel.steps.collectAsStateWithLifecycle()
 
             StepCounterTheme {
                 StepCounterScreen(
                     steps = steps,
                     sensorEnabled = stepSensor != null && hasPermission && !sensorPermissionDenied,
-                    onIncrement = vm::increment,
-                    onReset = vm::reset,
+                    onIncrement = stepCounterViewModel::increment,
+                    onReset = stepCounterViewModel::reset,
                 )
             }
         }
@@ -106,11 +106,11 @@ class MainActivity : ComponentActivity() {
             ) == PackageManager.PERMISSION_GRANTED
 
     private fun registerSensorListener() {
-        val sensor = stepSensor ?: return
+        val stepSensorValue = stepSensor ?: return
         if (!hasActivityRecognitionPermission(this)) return
         sensorManager?.registerListener(
             sensorListener,
-            sensor,
+            stepSensorValue,
             SensorManager.SENSOR_DELAY_NORMAL,
         )
     }
