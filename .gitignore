@@ -23,6 +23,3 @@ captures/
 
 # Kotlin
 .kotlin/
-
-# Locally staged APKs (CI is the artifact source of truth)
-website/*.apk
