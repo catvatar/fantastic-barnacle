@@ -1,15 +1,11 @@
 package com.example.stepcounter.ui
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
