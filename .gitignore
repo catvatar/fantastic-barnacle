@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+
+# Local configuration
+local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Android
+captures/
+.externalNativeBuild/
+.cxx/
+
+# OS
+.DS_Store
+
+# OpenHands temp
+.agents_tmp/
+
+# Kotlin
+.kotlin/
+
+# Locally staged APKs (CI is the artifact source of truth)
+website/*.apk

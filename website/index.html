@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>100 Steps — a tiny step counter for Android</title>
+  <meta name="description" content="Minimal Android step counter. One screen, a 100-step bar with 10/20/50 milestones. No accounts, no sync, no permission creep." />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Favicon: a ten-step tick drawn inline -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e0f0c'/%3E%3Cpath d='M6 26 26 6' stroke='%23e8481c' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="brand" href="#">100<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 10 10 2"/></svg>steps</a>
+    <a class="nav-version" href="#build">v<span data-version>0.1</span> · <span data-size>8.3 MB</span></a>
+  </nav>
+
+  <header class="hero">
+    <p class="eyebrow">Android&nbsp;8.0+ · Open source · No&nbsp;accounts</p>
+    <h1 class="hero-title">
+      <span class="display" id="display">0</span>
+      <span class="slash">/</span>
+      <span class="max">100</span>
+      <span class="hero-caption">steps</span>
+    </h1>
+    <div class="bar" id="bar">
+      <span class="bar-fill" id="fill"></span>
+      <span class="tick" style="left:10%"><i></i><em>10</em></span>
+      <span class="tick" style="left:20%"><i></i><em>20</em></span>
+      <span class="tick" style="left:50%"><i></i><em>50</em></span>
+    </div>
+    <p class="subtitle">A tiny step counter that does <em>one</em> thing: count your steps toward a hundred. Milestones at 10, 20, 50. No sign-up, no sync, no floor of the month. Just the number, your phone's sensor, and a bar that fills up.</p>
+    <div class="hero-actions">
+      <a id="downloadBtn" class="btn btn-primary" href="step-counter-v0.1.apk" download="step-counter-v0.1.apk">
+        Download <b id="btnLabel">v0.1</b>
+        <span class="btn-sub">.apk · <span data-size>8.3 MB</span> · free</span>
+      </a>
+      <button class="btn btn-ghost" id="checksumBtn" aria-expanded="false" aria-controls="checksum">Verify download</button>
+    </div>
+  </header>
+
+  <!-- angular spacer so the bar looks embedded in the page rhythm -->
+  <div class="cut" aria-hidden="true"></div>
+
+  <section class="features">
+    <article class="feature">
+      <h2><span class="num">01</span> A bar with a brass ring</h2>
+      <p>One hundred steps, full stop. The bar fills as you go, and the markers at <strong>10 · 20 · 50</strong> light up when you hit them. Count past a hundred if you like — the bar just stays honest.</p>
+    </article>
+    <article class="feature">
+      <h2><span class="num">02</span> No background anything</h2>
+      <p>Counting happens only while the app is open. Close it, and it stops. No health sync, no location, no server, not even a login. It can't chase you around the internet.</p>
+    </article>
+    <article class="feature">
+      <h2><span class="num">03</span> Built to be tested</h2>
+      <p>Sitting at a desk? Tap the <strong>+1 Step</strong> button. Working in the office? The hardware step sensor reads real motion. Reset re-baselines the sensor, so the count always starts fresh.</p>
+    </article>
+  </section>
+
+  <section class="offline-usemod" id="build">
+    <div class="offline-left">
+      <h2 class="section-title">The build</h2>
+      <p class="section-kicker">Debug-signed APK, built today from the repo. Version 0.1 — the skeleton of something honest.</p>
+      <a class="btn btn-lg btn-primary" href="step-counter-v0.1.apk" download="step-counter-v0.1.apk">
+        Download <b>step-counter-v0.1.apk</b>
+      </a>
+      <p class="tiny">Known signing: debug keystore. Fine for sideloading a test build.</p>
+    </div>
+    <div class="offline-right">
+      <h3 class="panel-title">Checksum</h3>
+      <p class="panel-text">What your phone should actually be installing — down to the last byte.</p>
+      <code id="sha" class="checksum" tabindex="0">dfa60be91ef46f175691fa2ca60231923b3953c7ebfe9045d3f2025370fb5adf</code>
+      <button class="btn btn-ghost btn-sm" id="copyBtn">Copy</button>
+      <p class="verify-hint" id="verifyHint" hidden>Copied. Paste it next to the file you downloaded and compare.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>100 steps · Minimal by design. Built from plain Kotlin &amp; Compose — no mystery behind the bar.</p>
+    <p class="footer-meta">v0.1 · GPL-3.0? Not yet — treat it as a kitchen table build.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
