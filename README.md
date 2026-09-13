@@ -28,6 +28,9 @@ The APK lands in `app/build/outputs/apk/debug/app-debug.apk`.
 ./gradlew testDebugUnitTest
 ```
 
+Runs 14 pure-JVM unit tests (count derivation, sensor baseline/delta,
+progress fraction, milestone reaching) with no mocks or fixtures.
+
 ## CI
 
 GitHub Actions builds the debug APK and uploads it as an artifact on every

@@ -1,40 +1,57 @@
 package com.example.stepcounter.ui
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.*
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import com.example.stepcounter.StepCounterLogic
 
 /**
- * A 100-step progress bar with milestone markers.
+ * A progress bar with milestone markers.
  *
  * [milestones] positions are mapped proportionally along the track
  * (milestone / [maximumSteps] of the width). A marker turns accent-colored once
- * [steps] reaches it, and a small value label is drawn below bar.
+ * [steps] reaches it, and a small value label is drawn below the bar.
+ *
+ * This composable is a rendering root, so it receives [maximumSteps] and
+ * [milestones] explicitly from its caller rather than reading global
+ * configuration itself. The geometry it draws is derived by the honest
+ * functions in [StepCounterLogic].
  */
 @Composable
 fun MilestoneProgressBar(
     steps: Int,
     modifier: Modifier = Modifier,
-    maximumSteps: Int = StepCounterDefaults.MaximumSteps,
-    milestones: List<Int> = StepCounterDefaults.Milestones,
+    maximumSteps: Int,
+    milestones: List<Int>,
 ) {
     val trackColor = MaterialTheme.colorScheme.surfaceVariant
     val fillColor = MaterialTheme.colorScheme.primary
-    val markerActive = MaterialTheme.colorScheme.primary
-    val markerInactive = MaterialTheme.colorScheme.outlineVariant
+    val markerInactiveColor = MaterialTheme.colorScheme.outlineVariant
     val labelColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val activeLabelStyle = MaterialTheme.typography.labelSmall.copy(color = markerActive)
+    val activeLabelStyle = MaterialTheme.typography.labelSmall.copy(color = fillColor)
     val inactiveLabelStyle = MaterialTheme.typography.labelSmall.copy(color = labelColor)
     val textMeasurer = rememberTextMeasurer()
-    val reached = milestones.filter { steps >= it }
-    val fraction = (steps.toFloat() / maximumSteps).coerceIn(0f, 1f)
+
+    val fraction = StepCounterLogic.progressFraction(
+        steps = steps,
+        maximumSteps = maximumSteps,
+    )
+    val reachedMilestones = StepCounterLogic.reachedMilestones(
+        steps = steps,
+        milestones = milestones,
+    )
 
     Column(modifier = modifier) {
         Canvas(
@@ -65,14 +82,12 @@ fun MilestoneProgressBar(
             }
 
             milestones.forEach { milestone ->
-                val x = track.width * milestone / maximumSteps
-                val active = reached.contains(milestone)
-                val markerColor = if (active) markerActive else markerInactive
-                // Notch above the bar.
+                val markerPosition = track.width * milestone / maximumSteps
+                val reached = reachedMilestones.contains(milestone)
                 drawLine(
-                    color = markerColor,
-                    start = Offset(x, top),
-                    end = Offset(x, top + barHeight),
+                    color = if (reached) fillColor else markerInactiveColor,
+                    start = Offset(markerPosition, top),
+                    end = Offset(markerPosition, top + barHeight),
                     strokeWidth = 3.dp.toPx(),
                     cap = StrokeCap.Round,
                 )
@@ -84,26 +99,21 @@ fun MilestoneProgressBar(
                 .height(16.dp),
         ) {
             milestones.forEach { milestone ->
-                val x = size.width * milestone / maximumSteps
-                val active = reached.contains(milestone)
+                val markerPosition = size.width * milestone / maximumSteps
+                val reached = reachedMilestones.contains(milestone)
                 val layout = textMeasurer.measure(
                     text = milestone.toString(),
-                    style = if (active) activeLabelStyle else inactiveLabelStyle,
+                    style = if (reached) activeLabelStyle else inactiveLabelStyle,
                 )
                 drawText(
                     textLayoutResult = layout,
                     topLeft = Offset(
-                        x = (x - layout.size.width / 2f).coerceIn(0f, size.width - layout.size.width),
+                        x = (markerPosition - layout.size.width / 2f)
+                            .coerceIn(0f, size.width - layout.size.width),
                         y = 0f,
                     ),
                 )
             }
         }
     }
-}
-
-/** Defaults for [MilestoneProgressBar]; kept as parameters for flexibility. */
-object StepCounterDefaults {
-    const val MaximumSteps: Int = 100
-    val Milestones: List<Int> = listOf(10, 20, 50)
 }

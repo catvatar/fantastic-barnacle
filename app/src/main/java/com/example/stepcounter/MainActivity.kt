@@ -40,6 +40,11 @@ class MainActivity : ComponentActivity() {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
     }
 
+    private companion object {
+        const val MAXIMUM_STEPS = 100
+        val MILESTONES: List<Int> = listOf(10, 20, 50)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -80,6 +85,8 @@ class MainActivity : ComponentActivity() {
             StepCounterTheme {
                 StepCounterScreen(
                     steps = steps,
+                    maximumSteps = MAXIMUM_STEPS,
+                    milestones = MILESTONES,
                     sensorEnabled = stepSensor != null && hasPermission && !sensorPermissionDenied,
                     onIncrement = stepCounterViewModel::increment,
                     onReset = stepCounterViewModel::reset,
@@ -123,6 +130,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun StepCounterScreen(
     steps: Int,
+    maximumSteps: Int,
+    milestones: List<Int>,
     sensorEnabled: Boolean,
     onIncrement: () -> Unit,
     onReset: () -> Unit,
@@ -146,6 +155,8 @@ private fun StepCounterScreen(
 
         MilestoneProgressBar(
             steps = steps,
+            maximumSteps = maximumSteps,
+            milestones = milestones,
             modifier = Modifier.fillMaxWidth(),
         )
 
